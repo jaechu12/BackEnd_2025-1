@@ -41,5 +41,13 @@ public class ArticleController {
         article.setContent(updatedArticle.getContent());
         return ResponseEntity.ok().body(article);
     }
-
+    
+    @DeleteMapping("/article/{id}")
+    public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
+        Article article = articles.remove(id);
+        if (article == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 }
