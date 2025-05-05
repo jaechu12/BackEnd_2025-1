@@ -22,5 +22,13 @@ public class ArticleController {
         }
         return ResponseEntity.ok().body(article);
     }
+    
+    @PostMapping("/article")
+    public ResponseEntity<Article> postArticle(@RequestBody Article article) {
+        long id = idGenerator.getAndIncrement();
+        article.setId(id);
+        articles.put(id, article);
+        return ResponseEntity.status(HttpStatus.CREATED).body(article);
+    }
 
 }
