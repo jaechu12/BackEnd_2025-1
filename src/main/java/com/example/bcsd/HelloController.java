@@ -1,20 +1,24 @@
 package com.example.bcsd;
 
+import org.apache.catalina.util.Introspection;
+import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 @Controller
 public class HelloController {
 
-    @ResponseBody
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World!!!!!";
+    @GetMapping("/introduce")
+    public String introduceName(@RequestParam(name = "name", required = false) String name, Model model) {
+        if (name==null){
+            return "hello.html";
+        }
+        model.addAttribute("name", name);
+        return "hello2.html";
     }
 
-    @GetMapping("/hello2")
-    public String hello2() {
-        return "hello";
-    }
+
+
 }
