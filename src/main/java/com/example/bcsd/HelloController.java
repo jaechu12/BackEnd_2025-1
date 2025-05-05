@@ -19,6 +19,11 @@ public class HelloController {
         return "hello2.html";
     }
 
-
+    @GetMapping("/json")
+    @ResponseBody
+    public introduce2 json(){
+        introduce2 intro = new introduce2(26,"허준기");
+        return intro;
+    }
 
 }
