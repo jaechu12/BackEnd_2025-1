@@ -40,4 +40,16 @@ public class HelloController {
         model.addAttribute("articles", articleList);
         return "posts.html";
     }
+
+    @GetMapping("/articles")
+    @ResponseBody
+    public List<Article> articles() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Article> articleList = List.of(
+                new Article("제목0", "회원0", now, ""),
+                new Article("제목1", "회원1", now, "내용입니다!!"),
+                new Article("제목2", "회원2", now, "내용입니다!!내용입니다!!")
+        );
+        return articleList;
+    }
 }
