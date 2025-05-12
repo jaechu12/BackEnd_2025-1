@@ -4,14 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class ArticleController {
 
-    private final Map<Long, Article> articles = new ConcurrentHashMap<>();
+    private final Map<Long, Article> articles = new HashMap<>();
     private final AtomicLong idGenerator = new AtomicLong(1);
 
     @GetMapping("/article/{id}")
@@ -41,7 +41,7 @@ public class ArticleController {
         article.setContent(updatedArticle.getContent());
         return ResponseEntity.ok().body(article);
     }
-    
+
     @DeleteMapping("/article/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
         Article article = articles.remove(id);
