@@ -1,53 +1,55 @@
 package com.example.bcsd;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class ArticleController {
 
-    private final Map<Long, Article> articles = new HashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
 
-    @GetMapping("/article/{id}")
-    public ResponseEntity<Article> getArticle(@PathVariable Long id) {
-        Article article = articles.get(id);
-        if (article == null) {
-            return ResponseEntity.notFound().build();
-        }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+
+    @GetMapping("/articles/{id}")
+    public ResponseEntity<ArticleDTO> getArticle(@PathVariable Long id) {
+        ArticleDTO article = articleService.articlesId(id);
         return ResponseEntity.ok().body(article);
     }
 
-    @PostMapping("/article")
-    public ResponseEntity<Article> postArticle(@RequestBody Article article) {
-        long id = idGenerator.getAndIncrement();
-        article.setId(id);
-        articles.put(id, article);
+    @PostMapping("/articles")
+    public ResponseEntity<ArticleDTO> postArticle(@RequestBody ArticleDTO articleDTO) {
+        ArticleDTO article = articleService.postArticle(articleDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(article);
     }
 
-    @PutMapping("/article/{id}")
-    public ResponseEntity<Article> putArticle(@PathVariable Long id, @RequestBody Article updatedArticle) {
-        Article article = articles.get(id);
-        if (article == null) {
-            return ResponseEntity.notFound().build();
-        }
-        article.setTitle(updatedArticle.getTitle());
-        article.setContent(updatedArticle.getContent());
-        return ResponseEntity.ok().body(article);
+    @PutMapping("/articles/{id}")
+    public ResponseEntity<ArticleDTO> putArticle(@PathVariable Long id, @RequestBody ArticleDTO updatedArticleDTO) {
+        ArticleDTO article = articleService.putArticle(id, updatedArticleDTO);
+        return ResponseEntity.ok(article);
     }
 
-    @DeleteMapping("/article/{id}")
+    @DeleteMapping("/articles/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
-        Article article = articles.remove(id);
-        if (article == null) {
-            return ResponseEntity.notFound().build();
-        }
+        ResponseEntity<String> article = articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();
     }
+
 }
