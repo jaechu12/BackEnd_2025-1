@@ -1,55 +1,56 @@
 package com.example.bcsd;
 
-import org.apache.catalina.util.Introspection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+
 
 @Controller
 public class HelloController {
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final HelloService helloService;
+
+    public HelloController(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
     @GetMapping("/introduce")
-    public String introduceName(@RequestParam(name = "name", required = false) String name, Model model) {
-        if (name == null) {
-            return "hello.html";
-        }
-        model.addAttribute("name", name);
-        return "hello2.html";
+    public String Introduce(@RequestParam(name = "name", required = false) String name, Model model) {
+        HelloDTO request = new HelloDTO(name);
+        return helloService.introduceName(request, model);
     }
 
     @GetMapping("/json")
     @ResponseBody
-    public IntroduceJson json() {
-        IntroduceJson intro = new IntroduceJson(26, "허준기");
+    public HelloDTO json() {
+        HelloDTO intro = new HelloDTO(26, "허준기");
         return intro;
     }
 
 
     @GetMapping("/posts")
-    public String posts(Model model) {
-        LocalDateTime now = LocalDateTime.now();
-        List<Article> articleList = List.of(
-                new Article("제목0", "회원0", now, ""),
-                new Article("제목1", "회원1", now, "내용입니다!!"),
-                new Article("제목2", "회원2", now, "내용입니다!!내용입니다!!")
-        );
-        model.addAttribute("articles", articleList);
+    public String posts(@RequestParam(name = "boardId") Long boardId, Model model) {
+        HelloDTO boardPosts = helloService.posts(boardId);
+
+        model.addAttribute("boardName", boardPosts.getBoardName());
+        model.addAttribute("articles", boardPosts.getArticleTitles());
+
         return "posts.html";
     }
 
+
     @GetMapping("/articles")
     @ResponseBody
-    public List<Article> articles() {
-        LocalDateTime now = LocalDateTime.now();
-        List<Article> articleList = List.of(
-                new Article("제목0", "회원0", now, ""),
-                new Article("제목1", "회원1", now, "내용입니다!!"),
-                new Article("제목2", "회원2", now, "내용입니다!!내용입니다!!")
-        );
-        return articleList;
+    public List<ArticleDTO> articles(@RequestParam Long boardId) {
+        return helloService.getboardId(boardId);
     }
+
+
 }
