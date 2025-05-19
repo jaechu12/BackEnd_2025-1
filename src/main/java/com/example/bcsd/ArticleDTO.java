@@ -1,21 +1,40 @@
 package com.example.bcsd;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
-public class Article {
+public class ArticleDTO {
     private Long id;
-    private String author;
-    private String board;
+    private Long author;
+    private Long board;
     private String title;
     private String content;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime revisedDate;
 
-    public Article(String title, String author, LocalDateTime date, String content) {
+    public ArticleDTO() {
+    }
+
+    public ArticleDTO(String title, Long author, LocalDateTime date, String content) {
         this.title = title;
         this.author = author;
         this.date = date;
         this.content = content;
+    }
+
+    public ArticleDTO(long id, Long author_id, Long board_id, String title, String content, LocalDateTime created_date, LocalDateTime modified_date) {
+        this.id = id;
+        this.author = author_id;
+        this.board = board_id;
+        this.title = title;
+        this.content = content;
+        this.date = created_date;
+        this.revisedDate = modified_date;
     }
 
 
@@ -23,11 +42,11 @@ public class Article {
         this.id = id;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Long author) {
         this.author = author;
     }
 
-    public void setBoard(String board) {
+    public void setBoard(Long board) {
         this.board = board;
     }
 
@@ -52,11 +71,11 @@ public class Article {
         return id;
     }
 
-    public String getAuthor() {
+    public Long getAuthor() {
         return author;
     }
 
-    public String getBoard() {
+    public Long getBoard() {
         return board;
     }
 

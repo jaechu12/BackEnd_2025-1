@@ -1,7 +1,7 @@
 package com.example.bcsd;
 
 
-public class Member {
+public class MemberDTO {
     private Long ID;
     private String name;
     private String email;
