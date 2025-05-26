@@ -1,26 +1,13 @@
 package com.example.bcsd;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class ArticleController {
-
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     private final ArticleService articleService;
 
@@ -28,11 +15,13 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+
     @GetMapping("/articles/{id}")
     public ResponseEntity<ArticleDTO> getArticle(@PathVariable Long id) {
         ArticleDTO article = articleService.articlesId(id);
         return ResponseEntity.ok().body(article);
     }
+
 
     @PostMapping("/articles")
     public ResponseEntity<ArticleDTO> postArticle(@RequestBody ArticleDTO articleDTO) {
@@ -46,9 +35,27 @@ public class ArticleController {
         return ResponseEntity.ok(article);
     }
 
+    @PutMapping("/member/{id}")
+    public ResponseEntity<MemberDTO> putMember(@PathVariable Long id, @RequestBody MemberDTO updatedMemberDTO) {
+        MemberDTO article = articleService.putMember(id, updatedMemberDTO);
+        return ResponseEntity.ok(article);
+    }
+
     @DeleteMapping("/articles/{id}")
     public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
         ResponseEntity<String> article = articleService.deleteArticle(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/member/{id}")
+    public ResponseEntity<String> deleteMember(@PathVariable Long id) {
+        ResponseEntity<String> article = articleService.deleteMember(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<String> deleteBoard(@PathVariable Long id) {
+        ResponseEntity<String> article = articleService.deleteBoard(id);
         return ResponseEntity.noContent().build();
     }
 
