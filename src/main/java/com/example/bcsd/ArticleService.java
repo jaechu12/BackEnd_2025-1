@@ -1,6 +1,5 @@
 package com.example.bcsd;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -45,6 +44,8 @@ public class ArticleService {
 
         String sql = "insert into article (board_id, author_id, title, content, created_date, modified_date) values (?, ?, ?, ?, now(), now())";
 
+
+
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, articleDTO.getBoard());
@@ -59,6 +60,7 @@ public class ArticleService {
 
         articleDTO.setDate(LocalDateTime.now());
         articleDTO.setRevisedDate(LocalDateTime.now());
+
 
         return articleDTO;
     }
