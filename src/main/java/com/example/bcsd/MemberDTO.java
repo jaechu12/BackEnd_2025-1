@@ -20,7 +20,7 @@ public class MemberDTO {
         this.email = email;
     }
 
-    public void setPassword(String title) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
