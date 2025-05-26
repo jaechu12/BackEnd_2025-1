@@ -41,5 +41,11 @@ public class MemberDTO {
         return password;
     }
 
+    public MemberDTO() {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
 
 }

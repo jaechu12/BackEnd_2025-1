@@ -44,8 +44,6 @@ public class ArticleService {
 
         String sql = "insert into article (board_id, author_id, title, content, created_date, modified_date) values (?, ?, ?, ?, now(), now())";
 
-
-
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, articleDTO.getBoard());
@@ -92,9 +90,44 @@ public class ArticleService {
         return articles;
     }
 
+    public MemberDTO putMember(@PathVariable Long id, @RequestBody MemberDTO updatedMember) {
+
+        String sql = "UPDATE member SET name = ?, email = ?, password = ? WHERE id = ?";
+
+        jdbcTemplate.update(sql,
+                updatedMember.getName(),
+                updatedMember.getEmail(),
+                updatedMember.getPassword(),
+                id);
+
+        String Sql = "SELECT id, name, email, password FROM member WHERE id = ?";
+        MemberDTO members = jdbcTemplate.queryForObject(Sql, (resultSet, rowNum) -> {
+            MemberDTO member= new MemberDTO();
+            member.setID(resultSet.getLong("id"));
+            member.setName(resultSet.getString("name"));
+            member.setEmail(resultSet.getString("email"));
+            member.setPassword(resultSet.getString("password"));
+            return member;
+        }, id);
+
+        return members;
+    }
+
     @Transactional
     public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
         jdbcTemplate.update("delete from article where id = ?", Long.valueOf(id));
+        return null;
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteMember(@PathVariable Long id) {
+        jdbcTemplate.update("delete from member where id = ?", Long.valueOf(id));
+        return null;
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteBoard(@PathVariable Long id) {
+        jdbcTemplate.update("delete from board where id = ?", Long.valueOf(id));
         return null;
     }
 
