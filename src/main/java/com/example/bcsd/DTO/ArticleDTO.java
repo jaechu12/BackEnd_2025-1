@@ -1,20 +1,40 @@
-package com.example.bcsd;
+package com.example.bcsd.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "article")
+@EntityListeners(AuditingEntityListener.class)
 public class ArticleDTO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "author_id")
     private Long author;
+
+    @Column(name = "board_id")
     private Long board;
+
     private String title;
     private String content;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created_date")
+    @CreatedDate
     private LocalDateTime date;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "modified_date")
+    @LastModifiedDate
     private LocalDateTime revisedDate;
 
     public ArticleDTO() {
@@ -37,6 +57,22 @@ public class ArticleDTO {
         this.revisedDate = modified_date;
     }
 
+    public static ArticleDTO from(ArticleDTO article) {
+        if (article == null) {
+            return null;
+        }
+
+        ArticleDTO dto = new ArticleDTO();
+        dto.setId(article.getID());
+        dto.setAuthor(article.getAuthor()); // author → member 참조
+        dto.setBoard(article.getBoard());   // board → board 참조
+        dto.setTitle(article.getTitle());
+        dto.setContent(article.getContent());
+        dto.setDate(article.getDate());
+        dto.setRevisedDate(article.getRevisedDate());
+
+        return dto;
+    }
 
     public void setId(Long id) {
         this.id = id;

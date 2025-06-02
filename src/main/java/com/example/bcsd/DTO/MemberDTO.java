@@ -1,4 +1,4 @@
-package com.example.bcsd;
+package com.example.bcsd.DTO;
 
 
 public class MemberDTO {
