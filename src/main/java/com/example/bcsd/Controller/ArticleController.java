@@ -1,8 +1,13 @@
-package com.example.bcsd;
+package com.example.bcsd.Controller;
 
+import com.example.bcsd.DTO.ArticleDTO;
+import com.example.bcsd.DTO.MemberDTO;
+import com.example.bcsd.Service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -16,9 +21,9 @@ public class ArticleController {
 
 
     @GetMapping("/articles/{id}")
-    public ResponseEntity<ArticleDTO> getArticle(@PathVariable Long id) {
-        ArticleDTO article = articleService.articlesId(id);
-        return ResponseEntity.ok().body(article);
+    public ResponseEntity<Optional<ArticleDTO>> getArticle(@PathVariable Long id) {
+        Object article = articleService.getArticle(id);
+        return ResponseEntity.ok().body((Optional<ArticleDTO>) article);
     }
 
 

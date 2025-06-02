@@ -1,5 +1,8 @@
-package com.example.bcsd;
+package com.example.bcsd.Controller;
 
+import com.example.bcsd.DTO.ArticleDTO;
+import com.example.bcsd.DTO.HelloDTO;
+import com.example.bcsd.Service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;

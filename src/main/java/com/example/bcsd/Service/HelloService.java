@@ -1,5 +1,7 @@
-package com.example.bcsd;
+package com.example.bcsd.Service;
 
+import com.example.bcsd.DTO.ArticleDTO;
+import com.example.bcsd.DTO.HelloDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.example.bcsd;
+package com.example.bcsd.ExceptionHandler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,13 +42,12 @@ public class globalExceptionHandler {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        @ExceptionHandler(NullPointerException.class)
-        public ResponseEntity<String> handleNullPointerException(
-                NullPointerException ex
-        ) {
-            String message = "null이 존재합니다. 입력 데이터를 다시 확인해주세요.";
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> handleNullPointerException(
+            NullPointerException ex
+    ) {
+        String message = "null이 존재합니다. 입력 데이터를 다시 확인해주세요.";
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
 
 }
