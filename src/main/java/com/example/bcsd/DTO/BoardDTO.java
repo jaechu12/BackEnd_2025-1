@@ -1,21 +1,15 @@
 package com.example.bcsd.DTO;
 
-import jakarta.persistence.*;
+
+import com.example.bcsd.Model.Board;
 
 
-@Entity
-@Table(name = "member")
+
 public class BoardDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
-
-    @Column(name = "name")
     private String board;
-
-    @Column(name = "board_id")
-    private String boardId;
+    private String boardID;
 
     public void setID(Long ID) {
         this.ID = ID;
@@ -25,8 +19,8 @@ public class BoardDTO {
         this.board = board;
     }
 
-    public void setBoardId(String boardId) {
-        this.boardId = boardId;
+    public void setBoardID(String boardID) {
+        this.boardID = boardID;
     }
 
 
@@ -38,5 +32,15 @@ public class BoardDTO {
         return board;
     }
 
+    public String getBoardID() {
+        return boardID;
+    }
 
+
+    public static BoardDTO from(Board board) {
+        BoardDTO dto = new BoardDTO();
+        dto.setID(board.getID());
+        dto.setBoard(board.getBoard());
+        return dto;
+    }
 }

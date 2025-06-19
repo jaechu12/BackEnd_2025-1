@@ -1,11 +1,22 @@
-package com.example.bcsd.DTO;
+package com.example.bcsd.Model;
 
-import com.example.bcsd.Model.Member;
+import jakarta.persistence.*;
 
-public class MemberDTO {
+@Entity
+@Table(name = "member")
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
 
 
@@ -42,20 +53,10 @@ public class MemberDTO {
         return password;
     }
 
-    public MemberDTO() {
+    public Member() {
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public static MemberDTO from(Member member) {
-        if (member == null) return null;
-
-        MemberDTO dto = new MemberDTO();
-        dto.setID(member.getID());
-        dto.setName(member.getName());
-        dto.setEmail(member.getEmail());
-        return dto;
     }
 
 }
