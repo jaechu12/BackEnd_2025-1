@@ -2,60 +2,32 @@ package com.example.bcsd.DTO;
 
 import com.example.bcsd.Model.Member;
 
-public class MemberDTO {
-    private Long ID;
-    private String name;
-    private String email;
-    private String password;
+import java.util.Objects;
+
+public record MemberDTO(
+            Long id,
+            String name,
+            String email,
+            String password
+    ) {
+    public MemberDTO {
+            Objects.requireNonNull(id);
+            Objects.requireNonNull(name);
+            Objects.requireNonNull(email);
+            Objects.requireNonNull(password);
+        }
 
 
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public Long getID() {
-        return ID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public MemberDTO() {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
 
     public static MemberDTO from(Member member) {
         if (member == null) return null;
 
-        MemberDTO dto = new MemberDTO();
-        dto.setID(member.getID());
-        dto.setName(member.getName());
-        dto.setEmail(member.getEmail());
-        return dto;
+        return new MemberDTO(
+                member.getID(),
+                member.getName(),
+                member.getEmail(),
+                member.getPassword()
+        );
     }
 
 }

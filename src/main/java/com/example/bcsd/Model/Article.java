@@ -35,7 +35,7 @@ public class Article {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "modified_date")
     @LastModifiedDate
-    private LocalDateTime revisedDate;
+    private LocalDateTime modifiedDate;
 
     public Article() {
     }
@@ -54,7 +54,7 @@ public class Article {
         this.title = title;
         this.content = content;
         this.date = created_date;
-        this.revisedDate = modified_date;
+        this.modifiedDate = modified_date;
     }
 
     public void setId(Long id) {
@@ -81,8 +81,8 @@ public class Article {
         this.date = date;
     }
 
-    public void setRevisedDate(LocalDateTime revisedDate) {
-        this.revisedDate = revisedDate;
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
 
@@ -110,21 +110,21 @@ public class Article {
         return date;
     }
 
-    public LocalDateTime getRevisedDate() {
-        return revisedDate;
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
     }
 
     public static Article from(ArticleDTO dto) {
         if (dto == null) return null;
 
         return new Article(
-                dto.getID(),
-                dto.getAuthor(),
-                dto.getBoard(),
-                dto.getTitle(),
-                dto.getContent(),
-                dto.getDate(),
-                dto.getRevisedDate()
+                dto.id(),
+                dto.author(),
+                dto.board(),
+                dto.title(),
+                dto.content(),
+                dto.date(),
+                dto.modifiedDate()
         );
     }
 

@@ -1,5 +1,6 @@
 package com.example.bcsd.Model;
 
+import com.example.bcsd.DTO.MemberDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -53,10 +54,26 @@ public class Member {
         return password;
     }
 
-    public Member() {
+
+    public Member(Long ID, String name, String email) {
+        this.ID = ID;
+        this.name = name;
+        this.email = email;
+    }
+
+    public Member(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
+    public static Member from(MemberDTO dto) {
+        if (dto == null) return null;
+
+        return new Member(
+                dto.id(),
+                dto.name(),
+                dto.email()
+        );
+    }
 }

@@ -14,7 +14,7 @@ public class Board {
     private String board;
 
 
-    public Board(Long id, String board, String boardID) {
+    public Board(Long id, String board) {
     }
 
     public void setID(Long ID) {
@@ -42,9 +42,8 @@ public class Board {
         if (dto == null) return null;
 
         return new Board(
-                dto.getID(),
-                dto.getBoard(),
-                dto.getBoardID()
+                dto.id(),
+                dto.board()
         );
     }
 }
