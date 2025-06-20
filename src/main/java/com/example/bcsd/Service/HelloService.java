@@ -2,6 +2,7 @@ package com.example.bcsd.Service;
 
 import com.example.bcsd.DTO.ArticleDTO;
 import com.example.bcsd.DTO.HelloDTO;
+import com.example.bcsd.Model.Article;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -41,11 +42,11 @@ public class HelloService {
     }
 
 
-    public List<ArticleDTO> getboardId(Long boardId) {
+    public List<Article> getboardId(Long boardId) {
         return jdbcTemplate.query(
                 "select id, author_id, board_id, title, content, created_date, modified_date from article where board_id = ?",
                 new Object[]{boardId},
-                (rs, rowNum) -> new ArticleDTO(
+                (rs, rowNum) -> new Article(
                         rs.getLong("id"),
                         rs.getLong("author_id"),
                         rs.getLong("board_id"),

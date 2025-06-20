@@ -2,6 +2,7 @@ package com.example.bcsd.Controller;
 
 import com.example.bcsd.DTO.ArticleDTO;
 import com.example.bcsd.DTO.HelloDTO;
+import com.example.bcsd.Model.Article;
 import com.example.bcsd.Service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,7 +52,7 @@ public class HelloController {
 
     @GetMapping("/articles")
     @ResponseBody
-    public List<ArticleDTO> articles(@RequestParam Long boardId) {
+    public List<Article> articles(@RequestParam Long boardId) {
         return helloService.getboardId(boardId);
     }
 

@@ -2,6 +2,7 @@ package com.example.bcsd.Controller;
 
 import com.example.bcsd.DTO.ArticleDTO;
 import com.example.bcsd.DTO.MemberDTO;
+import com.example.bcsd.Model.Article;
 import com.example.bcsd.Service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class ArticleController {
 
 
     @PostMapping("/articles")
-    public ResponseEntity<ArticleDTO> postArticle(@RequestBody ArticleDTO articleDTO) {
-        ArticleDTO article = articleService.postArticle(articleDTO);
+    public ResponseEntity<Article> postArticle(@RequestBody Article articleDTO) {
+        Article article = articleService.postArticle(articleDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(article);
     }
 

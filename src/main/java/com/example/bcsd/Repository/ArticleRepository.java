@@ -1,6 +1,7 @@
 package com.example.bcsd.Repository;
 
 import com.example.bcsd.DTO.ArticleDTO;
+import com.example.bcsd.Model.Article;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,8 +22,8 @@ public class ArticleRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<ArticleDTO> findById(Long id) {
-        ArticleDTO article = em.find(ArticleDTO.class, id);
+    public Optional<Article> findById(Long id) {
+        Article article = em.find(Article.class, id);
         return Optional.ofNullable(article);
     }
 
@@ -43,16 +44,10 @@ public class ArticleRepository {
         return null;
     }
 
-    public Optional<ArticleDTO> deleteBoardById(Long id) {
-        ArticleDTO article = em.find(ArticleDTO.class, id);
-        if (article != null) {
-            em.remove(article);
-        }
-        return null;
-    }
+
 
     @Transactional
-    public ArticleDTO save(ArticleDTO article) {
+    public Article save(Article article) {
         if (article.getID() == null) {
             em.persist(article);
             return article;

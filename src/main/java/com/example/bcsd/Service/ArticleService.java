@@ -2,7 +2,11 @@ package com.example.bcsd.Service;
 
 import com.example.bcsd.DTO.ArticleDTO;
 import com.example.bcsd.DTO.MemberDTO;
+import com.example.bcsd.Model.Article;
+import com.example.bcsd.Model.Board;
+import com.example.bcsd.Model.Member;
 import com.example.bcsd.Repository.ArticleRepository;
+import com.example.bcsd.Repository.BoardRepository;
 import com.example.bcsd.Repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -26,67 +28,69 @@ public class ArticleService {
     private final JdbcTemplate jdbcTemplate;
     private final ArticleRepository articleRepository;
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
-    public ArticleService(JdbcTemplate jdbcTemplate, ArticleRepository articleRepository, MemberRepository memberRepository) {
+    public ArticleService(JdbcTemplate jdbcTemplate, ArticleRepository articleRepository, MemberRepository memberRepository, BoardRepository boardRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.articleRepository = articleRepository;
         this.memberRepository = memberRepository;
+        this.boardRepository = boardRepository;
     }
 
-    public Optional<ArticleDTO> getArticle(Long id) {
-        Optional<ArticleDTO> articles = articleRepository.findById(id);
+    public Optional<Article> getArticle(Long id) {
+        Optional<Article> articles = articleRepository.findById(id);
 
         return articles;
     }
 
 
     @Transactional
-    public ArticleDTO postArticle(ArticleDTO article) {
-
+    public Article postArticle(Article article) {
         return articleRepository.save(article);
     }
 
 
     @Transactional
-    public ArticleDTO putArticle(@PathVariable Long id, @RequestBody ArticleDTO article) {
-        ArticleDTO existing = articleRepository.findById(id)
+    public ArticleDTO putArticle(Long id, ArticleDTO dto) {
+        Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없음" + id));
 
-        existing.setTitle(article.getTitle());
-        existing.setContent(article.getContent());
+        article.setTitle(dto.title());
+        article.setContent(dto.content());
 
-        ArticleDTO updated = articleRepository.save(existing);
+        Article updated = articleRepository.save(article);
 
-        return updated;
-    }
-
-
-    public MemberDTO putMember(@PathVariable Long id, @RequestBody MemberDTO member) {
-
-
-        member.setName(member.getName());
-        member.setEmail(member.getEmail());
-
-        MemberDTO updated = memberRepository.save(member);
-
-        return updated;
+        return ArticleDTO.from(updated);
     }
 
     @Transactional
-    public ResponseEntity<String> deleteArticle(@PathVariable Long id) {
+    public MemberDTO putMember(Long id, MemberDTO dto) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없음" + id));
+
+        member.setName(dto.name());
+        member.setEmail(dto.email());
+
+        Member updated = memberRepository.save(member);
+
+        return MemberDTO.from(updated);
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteArticle(Long id) {
         Optional<ArticleDTO> article = articleRepository.deleteArticleById(id);
         return null;
     }
 
     @Transactional
-    public ResponseEntity<String> deleteMember(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMember(Long id) {
         Optional<ArticleDTO> article = articleRepository.deleteMemberById(id);
         return null;
     }
 
     @Transactional
-    public ResponseEntity<String> deleteBoard(@PathVariable Long id) {
-        Optional<ArticleDTO> article = articleRepository.deleteBoardById(id);
+    public ResponseEntity<String> deleteBoard(Long id) {
+        Optional<Board> board = boardRepository.deleteBoardById(id);
         return null;
     }
 
