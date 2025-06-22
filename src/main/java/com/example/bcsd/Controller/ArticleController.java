@@ -35,9 +35,9 @@ public class ArticleController {
     }
 
     @PutMapping("/articles/{id}")
-    public ResponseEntity<ArticleDTO> putArticle(@PathVariable Long id, @RequestBody ArticleDTO updatedArticleDTO) {
-        ArticleDTO article = articleService.putArticle(id, updatedArticleDTO);
-        return ResponseEntity.ok(article);
+    public ResponseEntity<Article> putArticle(@PathVariable Long id, @RequestBody ArticleDTO updatedArticleDTO) {
+        Optional<Article> article = articleService.putArticle(id, updatedArticleDTO);
+        return ResponseEntity.ok(article.get());
     }
 
     @PutMapping("/member/{id}")

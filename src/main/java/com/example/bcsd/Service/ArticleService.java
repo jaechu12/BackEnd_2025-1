@@ -51,7 +51,7 @@ public class ArticleService {
 
 
     @Transactional
-    public ArticleDTO putArticle(Long id, ArticleDTO dto) {
+    public Optional<Article> putArticle(Long id, ArticleDTO dto) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없음" + id));
 
@@ -60,7 +60,7 @@ public class ArticleService {
 
         Article updated = articleRepository.save(article);
 
-        return ArticleDTO.from(updated);
+        return Optional.of(updated);
     }
 
     @Transactional
@@ -78,13 +78,19 @@ public class ArticleService {
 
     @Transactional
     public ResponseEntity<String> deleteArticle(Long id) {
-        Optional<ArticleDTO> article = articleRepository.deleteArticleById(id);
+        ArticleDTO article = em.find(ArticleDTO.class, id);
+        if (article != null) {
+            em.remove(article);
+        }
         return null;
     }
 
     @Transactional
     public ResponseEntity<String> deleteMember(Long id) {
-        Optional<ArticleDTO> article = articleRepository.deleteMemberById(id);
+        ArticleDTO article = em.find(ArticleDTO.class, id);
+        if (article != null) {
+            em.remove(article);
+        }
         return null;
     }
 
@@ -92,6 +98,11 @@ public class ArticleService {
     public ResponseEntity<String> deleteBoard(Long id) {
         Optional<Board> board = boardRepository.deleteBoardById(id);
         return null;
+    }
+
+    @Transactional
+    public ArticleDTO update(Long id, ArticleDTO article) {
+        return em.merge(article);
     }
 
 }

@@ -66,10 +66,16 @@ public class Article {
     }
 
     public Article() {
-
     }
 
     public Article(long id, long authorId, long boardId, String title, String content, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+        this.id = id;
+        this.author = authorId;
+        this.board = new Board();
+        this.board.setId(boardId);
+        this.content = content;
+        this.date = createdDate;
+        this.modifiedDate = modifiedDate;
     }
 
     public void setId(Long id) {

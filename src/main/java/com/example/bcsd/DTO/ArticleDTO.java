@@ -15,14 +15,6 @@ public record ArticleDTO(
         LocalDateTime date,
         LocalDateTime modifiedDate
 ) {
-    public ArticleDTO {
-        Objects.requireNonNull(id);
-        Objects.requireNonNull(author);
-        Objects.requireNonNull(title);
-        Objects.requireNonNull(content);
-        Objects.requireNonNull(date);
-        Objects.requireNonNull(modifiedDate);
-    }
 
     public static ArticleDTO from(Article article) {
         if (article == null) return null;
@@ -30,7 +22,7 @@ public record ArticleDTO(
         return new ArticleDTO(
                 article.getId(),
                 article.getAuthor(),
-                article.getBoard().getId(),
+                article.getBoard() != null ? article.getBoard().getId() : null,
                 article.getTitle(),
                 article.getContent(),
                 article.getDate(),
