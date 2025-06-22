@@ -22,9 +22,9 @@ public class ArticleController {
 
 
     @GetMapping("/articles/{id}")
-    public ResponseEntity<Optional<ArticleDTO>> getArticle(@PathVariable Long id) {
-        Object article = articleService.getArticle(id);
-        return ResponseEntity.ok().body((Optional<ArticleDTO>) article);
+    public ResponseEntity<Article> getArticle(@PathVariable Long id) {
+        Optional<Article> article = articleService.getArticle(id);
+        return ResponseEntity.ok(article.get());
     }
 
 

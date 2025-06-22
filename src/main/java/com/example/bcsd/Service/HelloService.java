@@ -3,6 +3,7 @@ package com.example.bcsd.Service;
 import com.example.bcsd.DTO.ArticleDTO;
 import com.example.bcsd.DTO.HelloDTO;
 import com.example.bcsd.Model.Article;
+import com.example.bcsd.Model.Board;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -57,6 +58,7 @@ public class HelloService {
                 )
         );
     }
+
 
 
 }

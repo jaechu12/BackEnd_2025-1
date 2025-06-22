@@ -19,7 +19,7 @@ public record BoardDTO(
         if (board == null) return null;
 
         return new BoardDTO(
-                board.getID(),
+                board.getId(),
                 board.getBoard()
         );
     }

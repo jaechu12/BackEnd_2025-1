@@ -48,7 +48,7 @@ public class ArticleRepository {
 
     @Transactional
     public Article save(Article article) {
-        if (article.getID() == null) {
+        if (article.getId() == null) {
             em.persist(article);
             return article;
         } else {

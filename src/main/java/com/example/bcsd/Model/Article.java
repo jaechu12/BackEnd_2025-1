@@ -2,12 +2,17 @@ package com.example.bcsd.Model;
 
 import com.example.bcsd.DTO.ArticleDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "article")
@@ -21,8 +26,9 @@ public class Article {
     @Column(name = "author_id")
     private Long author;
 
-    @Column(name = "board_id")
-    private Long board;
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     private String title;
     private String content;
@@ -37,7 +43,9 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    public Article() {
+
+
+    public Article(Long id, Long author, Long board, String title, String content, LocalDateTime date, LocalDateTime modifiedDate) {
     }
 
     public Article(String title, Long author, LocalDateTime date, String content) {
@@ -47,7 +55,7 @@ public class Article {
         this.content = content;
     }
 
-    public Article(long id, Long author_id, Long board_id, String title, String content, LocalDateTime created_date, LocalDateTime modified_date) {
+    public Article(long id, Long author_id, Board board_id, String title, String content, LocalDateTime created_date, LocalDateTime modified_date) {
         this.id = id;
         this.author = author_id;
         this.board = board_id;
@@ -55,6 +63,13 @@ public class Article {
         this.content = content;
         this.date = created_date;
         this.modifiedDate = modified_date;
+    }
+
+    public Article() {
+
+    }
+
+    public Article(long id, long authorId, long boardId, String title, String content, LocalDateTime createdDate, LocalDateTime modifiedDate) {
     }
 
     public void setId(Long id) {
@@ -65,7 +80,7 @@ public class Article {
         this.author = author;
     }
 
-    public void setBoard(Long board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 
@@ -86,7 +101,7 @@ public class Article {
     }
 
 
-    public Long getID() {
+    public Long getId() {
         return id;
     }
 
@@ -94,7 +109,7 @@ public class Article {
         return author;
     }
 
-    public Long getBoard() {
+    public Board getBoard() {
         return board;
     }
 
