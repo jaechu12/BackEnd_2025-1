@@ -37,10 +37,9 @@ public class ArticleService {
         this.boardRepository = boardRepository;
     }
 
-    public Optional<Article> getArticle(Long id) {
-        Optional<Article> articles = articleRepository.findById(id);
-
-        return articles;
+    public Article getArticle(Long id) {
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없음 " + id));
     }
 
 
@@ -66,7 +65,7 @@ public class ArticleService {
     @Transactional
     public MemberDTO putMember(Long id, MemberDTO dto) {
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없음" + id));
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with id " + id));
 
         member.setName(dto.name());
         member.setEmail(dto.email());

@@ -17,7 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "article")
 @EntityListeners(AuditingEntityListener.class)
-public class Article {
+public class Article{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

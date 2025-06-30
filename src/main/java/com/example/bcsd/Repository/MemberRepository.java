@@ -1,37 +1,17 @@
 package com.example.bcsd.Repository;
 
+import com.example.bcsd.Model.Article;
 import com.example.bcsd.Model.Member;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 
 @Repository
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    private final JdbcTemplate jdbcTemplate;
+    Member findByEmail(String email);
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public MemberRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public Optional<Member> findById(Long id) {
-        Member member = em.find(Member.class, id);
-        return Optional.ofNullable(member);
-    }
-
-    public Member save(Member member) {
-        if (member.getID() == null) {
-            em.persist(member);
-            return member;
-        } else {
-            return em.merge(member);
-        }
-    }
+    Member save(Member member);
 }

@@ -54,6 +54,7 @@ public class Member {
         return password;
     }
 
+    public Member(){}
 
     public Member(Long ID, String name, String email) {
         this.ID = ID;
