@@ -48,6 +48,13 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
+    @Transactional
+    public Member registMember(Member member) {
+        if (memberRepository.findByEmail(member.getEmail()) != null) {
+            throw new IllegalArgumentException("가입된 이메일");
+        }
+        return memberRepository.save(member);
+    }
 
     @Transactional
     public Optional<Article> putArticle(Long id, ArticleDTO dto) {

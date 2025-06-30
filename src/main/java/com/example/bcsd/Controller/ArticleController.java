@@ -42,6 +42,7 @@ public class ArticleController {
 
         return "login!";
     }
+
     @GetMapping("/articles/{id}")
     public ResponseEntity<Article> getArticle(@PathVariable Long id) {
         Article article = articleService.getArticle(id);
@@ -60,6 +61,12 @@ public class ArticleController {
 
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         return "로그인되었습니다";
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Member> registMember(@RequestBody Member member) {
+        Member memberRegist = articleService.registMember(member);
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberRegist);
     }
 
     @PostMapping("/articles")
